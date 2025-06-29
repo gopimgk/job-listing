@@ -1,6 +1,18 @@
+# -------- Stage 1: Node + Vite build --------
+FROM node:18 AS node-builder
+
+WORKDIR /app
+
+COPY package*.json vite.config.js ./
+COPY resources/ resources/
+COPY public/ public/
+
+RUN npm install && npm run build
+
+# -------- Stage 2: PHP + Laravel --------
 FROM php:8.2
 
-# Install system dependencies + PostgreSQL driver
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git curl unzip zip libpng-dev libonig-dev libxml2-dev \
     libpq-dev nodejs npm \
@@ -15,17 +27,17 @@ WORKDIR /var/www
 # Copy project files
 COPY . .
 
+# Copy compiled assets from node-builder
+COPY --from=node-builder /app/public/build public/build
+
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
-
-# Build frontend assets
-RUN npm install && npm run build
 
 # Set correct permissions
 RUN chown -R www-data:www-data storage bootstrap/cache public/build
 
-# Expose port 80
+# Expose HTTP port
 EXPOSE 80
 
-# Start Laravel and run DB migration
+# Start Laravel
 CMD ["sh", "-c", "php artisan config:cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=80"]
