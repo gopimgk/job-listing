@@ -10,14 +10,13 @@ cd your-repo
 composer install
 cp .env.example .env
 php artisan key:generate
-touch database/database.sqlite
 php artisan migrate
 npm install && npm run dev
 php artisan serve
 
 postman Api calls
 
-POST /api/register
+POST http://localhost:8000/api/register
 Content-Type: application/json
 
 {
@@ -28,7 +27,7 @@ Content-Type: application/json
 }
 
 
-POST /api/login
+POST http://localhost:8000/api/login
 Content-Type: application/json
 
 {
@@ -39,19 +38,19 @@ Content-Type: application/json
 copy Type: Bearer Token
 
 
-POST /api/jobs
+POST http://localhost:8000/api/jobs
 Authorization: Bearer <your_token>
 Content-Type: application/json
 {
-  "title": "Laravel Developer",
-  "description": "Looking for Laravel developer with 3 years experience.",
-  "location": "Remote",
-  "salary": "60000",
-  "job_type": "full-time"
-}
+   "title": "Laravel Developer",
+   "description": "Looking for Laravel developer with 3 years experience.",
+   "location": "Remote",
+   "type": "Full-time",
+   "company": "my company"
+ }
 
 
-GET /api/jobs
+GET http://localhost:8000/api/jobs
 Authorization: Bearer <your_token>
 
 
