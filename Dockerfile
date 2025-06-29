@@ -1,18 +1,19 @@
-# -------- Stage 1: Node + Vite build --------
-FROM node:18 AS node-builder
+# ---------- Stage 1: Vite asset builder ----------
+FROM node:18 AS vite-builder
 
 WORKDIR /app
 
+# Copy only what's needed for Vite build
 COPY package*.json vite.config.js ./
 COPY resources/ resources/
 COPY public/ public/
 
 RUN npm install && npm run build
 
-# -------- Stage 2: PHP + Laravel --------
+# ---------- Stage 2: Laravel + PHP ----------
 FROM php:8.2
 
-# Install system dependencies
+# Install PHP extensions
 RUN apt-get update && apt-get install -y \
     git curl unzip zip libpng-dev libonig-dev libxml2-dev \
     libpq-dev nodejs npm \
@@ -21,22 +22,20 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www
 
-# Copy project files
+# Copy entire Laravel app
 COPY . .
 
-# Copy compiled assets from node-builder
-COPY --from=node-builder /app/public/build public/build
+# ✅ Copy built Vite assets from builder
+COPY --from=vite-builder /app/public/build ./public/build
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
 
-# Set correct permissions
+# Set permissions
 RUN chown -R www-data:www-data storage bootstrap/cache public/build
 
-# Expose HTTP port
 EXPOSE 80
 
 # Start Laravel
