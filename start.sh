@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-# Run Laravel migrations on Render
-php artisan migrate --force
-
-# Optional: cache config to boost performance
+echo "🚀 Caching config..."
 php artisan config:cache
 
-# Start Laravel app (required for Docker on Render)
+echo "📦 Running migrations..."
+php artisan migrate --force
+
+echo "🟢 Starting Laravel server..."
 php artisan serve --host=0.0.0.0 --port=8080

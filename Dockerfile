@@ -29,5 +29,16 @@ RUN php artisan config:cache
 
 # Run Laravel
 # CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
-CMD ["./start.sh"]
+# CMD ["./start.sh"]
+
+
+# Copy your start.sh into the container
+COPY start.sh /var/www/html/start.sh
+
+# Make sure it’s executable
+RUN chmod +x /var/www/html/start.sh
+
+# Start the app using the script
+CMD ["/var/www/html/start.sh"]
+
 
