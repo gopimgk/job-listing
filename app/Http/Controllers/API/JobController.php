@@ -27,7 +27,12 @@ class JobController extends Controller
 
      public function store(StoreJobRequest $request)
     {
+        // dd(auth()->user());
         $job = auth()->user()->jobs()->create($request->validated());
+        if ($request->expectsJson() || $request->is('api/*')) {
+        return new JobResource($job); // For API route
+        }
+        // return new JobResource($job);
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
