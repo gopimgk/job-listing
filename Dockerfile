@@ -1,29 +1,30 @@
-# Base image with PHP and system deps
-FROM php:8.2-fpm
+FROM php:8.2
 
-# Install system dependencies
+# System dependencies
 RUN apt-get update && apt-get install -y \
-    git curl unzip zip libpng-dev libonig-dev libxml2-dev \
-    npm nodejs
+    git curl zip unzip libpng-dev libonig-dev libxml2-dev \
+    nodejs npm
 
 # Install Composer
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# Set working dir
 WORKDIR /var/www
 
-# Copy everything into container
+# Copy code
 COPY . .
 
-# Install PHP deps
+# PHP deps
 RUN composer install --optimize-autoloader --no-dev
 
-# Install Node dependencies and build Vite assets
+# Node deps & build
 RUN npm install && npm run build
 
-# Set correct permissions for Laravel
+# Permissions
 RUN chown -R www-data:www-data storage bootstrap/cache public/build
 
-# Expose port and start php-fpm
-EXPOSE 9000
-CMD ["php-fpm"]
+# EXPOSE HTTP port
+EXPOSE 80
+
+# Start Laravel built-in server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=80"]
