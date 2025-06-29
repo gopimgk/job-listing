@@ -10,46 +10,51 @@ cd your-repo
 composer install
 cp .env.example .env
 php artisan key:generate
-touch database/database.sqlite
 php artisan migrate
 npm install && npm run dev
 php artisan serve
 
-📦 API Usage
-Authentication
-Use Laravel Sanctum for auth.
-bash
-CopyEdit
-# Register
-curl -X POST http://localhost/api/register -d "name=John&email=john@example.com&password=secret&password_confirmation=secret"
+postman Api calls
 
-# Login
-curl -X POST http://localhost/api/login -d "email=john@example.com&password=secret"
+POST http://localhost:8000/api/register
+Content-Type: application/json
 
-# Get Jobs
-curl http://localhost/api/jobs
+{
+  "name": "Gopi Krishna",
+  "email": "gopi@example.com",
+  "password": "password",
+  "password_confirmation": "password"
+}
 
-Or include a Postman Collection in your repo as postman_collection.json.
-🌐 Live URL
-https://your-app-name.onrender.com
-yaml
-CopyEdit
 
----
+POST http://localhost:8000/api/login
+Content-Type: application/json
 
-## ✅ Bonus Checklist
+{
+  "email": "gopi@example.com",
+  "password": "password"
+}
 
-- [ ] Livewire or Vue used in job form
-- [ ] Pagination working in listing
-- [ ] Deploy to Render with working `.env`
-- [ ] Public GitHub repo
-- [ ] README with setup, API, and deployed link
+copy Type: Bearer Token
 
----
 
-Let me know:
-- Do you want a Livewire or Vue form?
-- Do you need help creating the Postman collection or `.env` for Render?
+POST http://localhost:8000/api/jobs
+Authorization: Bearer <your_token>
+Content-Type: application/json
+{
+   "title": "Laravel Developer",
+   "description": "Looking for Laravel developer with 3 years experience.",
+   "location": "Remote",
+   "type": "Full-time",
+   "company": "my company"
+ }
 
-I'll help you finish and deploy it fast.
+
+GET http://localhost:8000/api/jobs
+Authorization: Bearer <your_token>
+
+
+
+GET /api/jobs/1
+Authorization: Bearer <your_token>
 
