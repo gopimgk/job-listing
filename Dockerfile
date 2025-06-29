@@ -28,4 +28,6 @@ RUN composer install --no-dev --optimize-autoloader
 RUN php artisan config:cache
 
 # Run Laravel
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+CMD ["./start.sh"]
+
