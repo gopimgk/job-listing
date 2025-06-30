@@ -7,21 +7,22 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- Bootstrap 5.3 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Optional Bootstrap JS for dropdowns, collapses -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </head>
-<body class="font-sans antialiased bg-gray-100 text-gray-900">
+<body class="bg-light text-dark">
+
     <!-- Optional Navbar/Header -->
     @include('layouts.navigation')
 
-    <main class="min-h-screen py-6">
-        <div class="max-w-7xl mx-auto px-6">
+    <main class="min-vh-100 py-5">
+        <div class="container">
             {{ $slot }}
         </div>
     </main>
+    
 </body>
 </html>

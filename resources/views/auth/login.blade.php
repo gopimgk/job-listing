@@ -1,48 +1,69 @@
-<x-guest-layout>
-    <h2 class="text-2xl font-semibold text-center text-gray-800 dark:text-white mb-6">
-        Login to Your Account
-    </h2>
+@extends('layouts.app')
 
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="text-center mb-4">Login to Your Account</h2>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
 
-        <div class="mb-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full"
-                          type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-        <div class="mb-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full"
-                          type="password" name="password" required />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" type="email" name="email"
+                       class="form-control @error('email') is-invalid @enderror"
+                       value="{{ old('email') }}" required autofocus>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <div class="flex items-center justify-between mb-4">
-            <label class="inline-flex items-center">
-                <input type="checkbox" name="remember"
-                       class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">Remember Me</span>
-            </label>
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" type="password" name="password"
+                       class="form-control @error('password') is-invalid @enderror"
+                       required>
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-            @if (Route::has('password.request'))
-                <a class="text-sm text-indigo-600 hover:underline" href="{{ route('password.request') }}">
-                    Forgot your password?
-                </a>
-            @endif
-        </div>
+            <!-- Remember Me & Forgot Password -->
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                    <label class="form-check-label" for="remember">
+                        Remember Me
+                    </label>
+                </div>
 
-        <x-primary-button class="w-full justify-center">
-            Log in
-        </x-primary-button>
+                @if (Route::has('password.request'))
+                    <a class="text-decoration-none" href="{{ route('password.request') }}">
+                        Forgot your password?
+                    </a>
+                @endif
+            </div>
 
-        <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-            Don't have an account?
-            <a href="{{ route('register') }}" class="text-indigo-600 hover:underline">Register</a>
-        </p>
-    </form>
-</x-guest-layout>
+            <!-- Submit -->
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary">
+                    Log in
+                </button>
+            </div>
+
+            <p class="text-center text-muted">
+                Don't have an account?
+                <a href="{{ route('register') }}" class="text-decoration-none">Register</a>
+            </p>
+        </form>
+    </div>
+</div>
+@endsection
