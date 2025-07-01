@@ -1,7 +1,7 @@
-<!-- Bootstrap 5.3 CSS CDN -->
+<!-- Bootstrap 5.3 CSS CDN
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap 5.3 JS CDN (for dropdowns and responsive toggler) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+ Bootstrap 5.3 JS CDN (for dropdowns and responsive toggler) -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>  -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
     <div class="container">
@@ -24,22 +24,22 @@
 
             <!-- Right Side: Auth Dropdown -->
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ Auth::check() ? Auth::user()->name : 'Guest' }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="dropdown-item">Log Out</button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ Auth::check() ? Auth::user()->name : 'Guest' }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Log Out</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul>
         </div>
     </div>
 </nav>
