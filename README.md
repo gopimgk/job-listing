@@ -5,10 +5,10 @@
 ## 🔧 Setup Instructions
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone https://github.com/gopimgk/job-listing.git
+cd job-listing
 composer install
-cp .env.example .env
+set .env
 php artisan key:generate
 php artisan migrate
 npm install && npm run dev
